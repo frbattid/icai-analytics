@@ -18,10 +18,11 @@
 package icai.spark.functions;
 
 import com.google.gson.Gson;
+import icai.gson.containers.NotifyContextRequest;
+import icai.gson.containers.NotifyContextRequest.ContextElement;
 import java.util.ArrayList;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import scala.Tuple2;
-import icai.gson.containers.NotifyContextRequest;
 import icai.gson.containers.NotifyContextRequest.ContextElementResponse;
 
 /**
@@ -37,20 +38,17 @@ public class NGSITuplesExtractor implements FlatMapFunction<
     public Iterable<Tuple2<NGSITuple, Float>> call(String str) {
         ArrayList tuples = new ArrayList<>();
         Gson gson = new Gson();
-        NotifyContextRequest ncr = gson.fromJson(str, NotifyContextRequest.class);
+        ContextElementResponse cer = gson.fromJson(str, ContextElementResponse.class);
+        ContextElement ce = cer.getContextElement();
+        String entityId = ce.getId();
+        String entityType = ce.getType();
 
-        for (ContextElementResponse cer : ncr.getContextResponses()) {
-            NotifyContextRequest.ContextElement ce = cer.getContextElement();
-            String entityId = ce.getId();
-            String entityType = ce.getType();
-
-            for (NotifyContextRequest.ContextAttribute ca : ce.getAttributes()) {
-                String attrName = ca.getName();
-                String attrType = ca.getType();
-                NGSITuple key = new NGSITuple(entityId, entityType, attrName, attrType);
-                Float value = new Float(ca.getContextValue(false));
-                tuples.add(new Tuple2(key, value));
-            } // for
+        for (NotifyContextRequest.ContextAttribute ca : ce.getAttributes()) {
+            String attrName = ca.getName();
+            String attrType = ca.getType();
+            NGSITuple key = new NGSITuple(entityId, entityType, attrName, attrType);
+            Float value = new Float(ca.getContextValue(false));
+            tuples.add(new Tuple2(key, value));
         } // for
 
         return tuples;
