@@ -54,7 +54,7 @@ public final class Detector {
     public static void main(String[] args) {
         // Show usage
         if (args.length != 4) {
-            System.err.println("Usage: usal.UsalAggregator <host> <port> <models_base_path> <debug>");
+            System.err.println("Usage: icai.analytics.Detector <host> <port> <models_base_path> <debug>");
             System.exit(1);
         } // if
 
