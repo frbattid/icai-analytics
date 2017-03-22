@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -v -X POST "http://localhost:1026/v2/subscriptions" -H "Fiware-Service: icai" -H "Fiware-ServicePath: /urbanization" -H "Content-Type: application/json" -d @- <<EOF
+curl -v -X POST "http://localhost:1026/v2/subscriptions" -H "Fiware-Service: icai" -H "Fiware-ServicePath: /neighbourhood" -H "Content-Type: application/json" -d @- <<EOF
 {
   "subject": {
     "entities": [
