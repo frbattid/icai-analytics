@@ -18,7 +18,7 @@
 package icai.spark.functions;
 
 import com.google.gson.Gson;
-import icai.gson.containers.NotifyContextRequest;
+import icai.gson.containers.NotifyContextRequest.ContextAttribute;
 import icai.gson.containers.NotifyContextRequest.ContextElement;
 import java.util.ArrayList;
 import org.apache.spark.api.java.function.FlatMapFunction;
@@ -43,7 +43,7 @@ public class NGSITuplesExtractor implements FlatMapFunction<
         String entityId = ce.getId();
         String entityType = ce.getType();
 
-        for (NotifyContextRequest.ContextAttribute ca : ce.getAttributes()) {
+        for (ContextAttribute ca : ce.getAttributes()) {
             String attrName = ca.getName();
             String attrType = ca.getType();
             NGSITuple key = new NGSITuple(entityId, entityType, attrName, attrType);
