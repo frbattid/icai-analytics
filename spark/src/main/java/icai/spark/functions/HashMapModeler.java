@@ -66,7 +66,7 @@ public class HashMapModeler implements VoidFunction<
             HashMap<Integer, Float> model = models.get(modelName);
             
             if (model == null) {
-                model = new HashMap<>(24);
+                model = new HashMap<>(numSlots);
                 models.put(modelName, model);
             } // if
             
